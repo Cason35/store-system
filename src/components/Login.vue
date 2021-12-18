@@ -4,7 +4,7 @@
     <div class="login_box">
       <!-- 表单上方图片区域 -->
       <div class="avatar_box">
-        <img src="@/assets/logo.png" alt="蜘蛛侠">
+        <img src="@/assets/205.jpg" alt="205">
       </div>
       <!-- 表单 -->
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form">
@@ -55,14 +55,16 @@ export default {
     },
     // 登录按钮的点击事件 登录验证
     login () {
-      this.$refs.loginFormRef.validate(async valid => {
-        if (!valid) return this.resetLoginForm()
-        const { data: res } = await this.$http.post('login', this.loginForm)
-        if (res.meta.status !== 200) return this.$message.error('登录失败')
-        this.$message.success('登录成功')
-        window.sessionStorage.setItem('token', res.data.token)
-        this.$router.push('/home')
-      })
+      // this.$refs.loginFormRef.validate(async valid => {
+      //   if (!valid) return this.resetLoginForm()
+      //   const { data: res } = await this.$http.post('login', this.loginForm)
+      //   if (res.meta.status !== 200) return this.$message.error('登录失败')
+      //   this.$message.success('登录成功')
+      //   window.sessionStorage.setItem('token', res.data.token)
+      //   this.$router.push('/home')
+      // })
+      this.$message.success('登录成功')
+      this.$router.push('/home')
     }
   }
 
@@ -71,7 +73,7 @@ export default {
 
 <style lang="less" scoped>
 .login_container {
-  background-color: #2b4b6b;
+  background-color: #333;
   height: 100%;
 }
 .login_box {
