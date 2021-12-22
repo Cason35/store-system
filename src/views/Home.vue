@@ -65,6 +65,19 @@ export default {
               children: []
             }
           ]
+        },
+        {
+          id: 125,
+          authName: '用户管理',
+          path: null,
+          children: [
+            {
+              id: 105,
+              authName: '用户列表',
+              path: 'users',
+              children: []
+            }
+          ]
         }
       ],
       // 一级菜单的字符图标
