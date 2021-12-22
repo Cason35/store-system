@@ -110,7 +110,7 @@ export default {
   },
   methods: {
     async getUserList () {
-      const res = await this.$http.post('customer.all', this.getInfo)
+      const { data: res } = await this.$http.post('customer.all', this.getInfo)
       if (res.state !== 200) return this.$message.error('请求失败')
       this.userList = res.data.list
       this.total = res.data.total
@@ -122,7 +122,7 @@ export default {
     },
     // 模糊查询
     async queryUserList () {
-      const res = await this.$http.post('customer.search', this.queryInfo)
+      const { data: res } = await this.$http.post('customer.search', this.queryInfo)
       if (res.state !== 200) return this.$message.error('请求失败')
       this.userList = res.data.list
       this.total = res.data.total
@@ -133,7 +133,7 @@ export default {
     },
     // 添加用户
     async addUser () {
-      const res = await this.$http.post('customer.insert', this.addForm)
+      const { data: res } = await this.$http.post('customer.insert', this.addForm)
       if (res.state !== 200) return this.$message.error('添加用户失败')
       this.$message.success('添加用户成功')
       // 隐藏添加用户的对话框
