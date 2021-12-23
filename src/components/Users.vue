@@ -7,7 +7,7 @@
         <el-col :span="8">
 
           <!-- 搜索与添加区域 -->
-          <el-input placeholder="请输入内容" v-model="queryInfo.keywords" clearable @clear="queryUserList">
+          <el-input placeholder="请输入内容" v-model="queryInfo.keyword" clearable @clear="queryUserList">
             <el-button slot="append" icon="el-icon-search" @click="queryUserList"></el-button>
           </el-input>
         </el-col>
@@ -56,8 +56,8 @@
         <el-form-item label="电话" prop="mobile">
           <el-input v-model="addForm.customer_phone"></el-input>
         </el-form-item>
-        <el-form-item label="地址" prop="password">
-          <el-input v-model="addForm.customer_address" type="password"></el-input>
+        <el-form-item label="地址" prop="address">
+          <el-input v-model="addForm.customer_address"></el-input>
         </el-form-item>
       </el-form>
       <!-- 底部区 -->
@@ -93,7 +93,7 @@ export default {
       // 模糊查询对象
       queryInfo: {
         page: 1,
-        keywords: ''
+        keyword: ''
       },
       // 显示添加用户对话框
       addDialogVisible: false,
@@ -110,20 +110,20 @@ export default {
   },
   methods: {
     async getUserList () {
-      const { data: res } = await this.$http.post('customer.all', this.getInfo)
-      if (res.state !== 200) return this.$message.error('请求失败')
+      const { data: res } = await this.$http.get('customer.all', { params: this.getInfo })
+      if (res.status !== 200) return this.$message.error('请求失败')
       this.userList = res.data.list
       this.total = res.data.total
     },
     // 监听页码值的改变事件
     handleCurrentChange (newPage) {
-      this.queryInfo.page = newPage
+      this.getInfo.page = newPage
       this.getUserList()
     },
     // 模糊查询
     async queryUserList () {
-      const { data: res } = await this.$http.post('customer.search', this.queryInfo)
-      if (res.state !== 200) return this.$message.error('请求失败')
+      const { data: res } = await this.$http.get('customer.search', { params: this.queryInfo })
+      if (res.status !== 200) return this.$message.error('请求失败')
       this.userList = res.data.list
       this.total = res.data.total
     },
@@ -134,7 +134,7 @@ export default {
     // 添加用户
     async addUser () {
       const { data: res } = await this.$http.post('customer.insert', this.addForm)
-      if (res.state !== 200) return this.$message.error('添加用户失败')
+      if (res.status !== 200) return this.$message.error('添加用户失败')
       this.$message.success('添加用户成功')
       // 隐藏添加用户的对话框
       this.addDialogVisible = false
