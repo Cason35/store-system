@@ -50,13 +50,13 @@
     width="50%" @close="addDialogClosed">
       <!-- 内容主体区 -->
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
-        <el-form-item label="客户名" prop="username">
+        <el-form-item label="客户名" prop="customer_name">
           <el-input v-model="addForm.customer_name"></el-input>
         </el-form-item>
-        <el-form-item label="电话" prop="mobile">
+        <el-form-item label="电话" prop="customer_phone">
           <el-input v-model.number="addForm.customer_phone"></el-input>
         </el-form-item>
-        <el-form-item label="地址" prop="useraddress">
+        <el-form-item label="地址" prop="customer_address">
           <el-input v-model="addForm.customer_address"></el-input>
         </el-form-item>
       </el-form>
@@ -80,7 +80,7 @@
         <el-form-item label="客户名" prop="customer_name">
           <el-input v-model="editForm.customer_name"></el-input>
         </el-form-item>
-        <el-form-item label="电话" prop="mobile">
+        <el-form-item label="电话" prop="customer_phone">
           <el-input v-model.number="editForm.customer_phone"></el-input>
         </el-form-item>
         <el-form-item label="地址" prop="customer_address">
@@ -145,23 +145,30 @@ export default {
       editForm: {},
       // 添加表单的验证规则对象
       addFormRules: {
-        username: [
+        customer_name: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
           { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
         ],
-        mobile: [
+        customer_phone: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
           { validator: checkMobile, message: '手机号码不正确，请重新输入', trigger: 'blur' }
         ],
-        useraddress: [
+        customer_address: [
           { required: true, message: '请输入地址', trigger: 'blur' }
         ]
       },
       // 修改表单的验证规则对象
       editFormRules: {
-        mobile: [
+        customer_name: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
+        ],
+        customer_phone: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
           { validator: checkMobile, message: '手机号码不正确，请重新输入', trigger: 'blur' }
+        ],
+        customer_address: [
+          { required: true, message: '请输入地址', trigger: 'blur' }
         ]
       }
     }
