@@ -194,14 +194,17 @@ export default {
       this.$refs.addFormRef.resetFields()
     },
     // 添加客户
-    async addUser () {
-      const { data: res } = await this.$http.post('customer.insert', this.addForm)
-      if (res.status !== 200) return this.$message.error('添加客户失败')
-      this.$message.success('添加客户成功')
-      // 隐藏添加客户的对话框
-      this.addDialogVisible = false
-      // 重新获取客户列表
-      this.getUserList()
+    addUser () {
+      this.$refs.addFormRef.validate(async valid => {
+        if (!valid) return this.$message.error('格式错误')
+        const { data: res } = await this.$http.post('customer.insert', this.addForm)
+        if (res.status !== 200) return this.$message.error('添加客户失败')
+        this.$message.success('添加客户成功')
+        // 隐藏添加客户的对话框
+        this.addDialogVisible = false
+        // 重新获取客户列表
+        this.getUserList()
+      })
     },
     // 删除客户按钮的点击事件
     async removeUserById (id) {
@@ -234,17 +237,20 @@ export default {
       this.editDialogVisible = true
     },
     // 修改客户信息并提交
-    async editUserInfo () {
-      const { data: res } = await this.$http.post('customer.update', this.editForm)
-      if (res.status !== 200) {
-        this.$message.error('更新客户信息失败')
-      }
-      // 关闭修改客户对话框
-      this.editDialogVisible = false
-      // 刷新客户列表
-      this.getUserList()
-      // 提示修改成功
-      this.$message.success('更新客户信息成功')
+    editUserInfo () {
+      this.$refs.editFormRef.validate(async valid => {
+        if (!valid) return this.$message.error('格式错误')
+        const { data: res } = await this.$http.post('customer.update', this.editForm)
+        if (res.status !== 200) {
+          this.$message.error('更新客户信息失败')
+        }
+        // 关闭修改客户对话框
+        this.editDialogVisible = false
+        // 刷新客户列表
+        this.getUserList()
+        // 提示修改成功
+        this.$message.success('更新客户信息成功')
+      })
     }
   }
 }
