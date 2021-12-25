@@ -54,7 +54,7 @@
           <el-input v-model="addForm.supplier_name"></el-input>
         </el-form-item>
         <el-form-item label="电话" prop="supplier_phone">
-          <el-input v-model="addForm.supplier_phone"></el-input>
+          <el-input v-model.number="addForm.supplier_phone"></el-input>
         </el-form-item>
         <el-form-item label="地址" prop="supplier_address">
           <el-input v-model="addForm.supplier_address"></el-input>
@@ -81,7 +81,7 @@
           <el-input v-model="editForm.supplier_name"></el-input>
         </el-form-item>
         <el-form-item label="电话" prop="supplier_phone">
-          <el-input v-model="editForm.supplier_phone"></el-input>
+          <el-input v-model.number="editForm.supplier_phone"></el-input>
         </el-form-item>
         <el-form-item label="地址" prop="supplier_address">
           <el-input v-model="editForm.supplier_address"></el-input>

@@ -65,7 +65,7 @@ export default {
               children: []
             },
             {
-              id: 104,
+              id: 107,
               authName: '仓库列表',
               path: 'storehouse',
               children: []

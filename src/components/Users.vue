@@ -49,14 +49,14 @@
     :visible.sync="addDialogVisible"
     width="50%" @close="addDialogClosed">
       <!-- 内容主体区 -->
-      <el-form :model="addForm" ref="addFormRef" label-width="70px">
-        <el-form-item label="客户名" prop="customer_name">
+      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
+        <el-form-item label="客户名" prop="username">
           <el-input v-model="addForm.customer_name"></el-input>
         </el-form-item>
-        <el-form-item label="电话" prop="customer_phone">
-          <el-input v-model="addForm.customer_phone"></el-input>
+        <el-form-item label="电话" prop="mobile">
+          <el-input v-model.number="addForm.customer_phone"></el-input>
         </el-form-item>
-        <el-form-item label="地址" prop="customer_address">
+        <el-form-item label="地址" prop="useraddress">
           <el-input v-model="addForm.customer_address"></el-input>
         </el-form-item>
       </el-form>
@@ -73,15 +73,15 @@
     :visible.sync="editDialogVisible"
     width="50%" @close="editDialogClosed">
       <!-- 内容主体区 -->
-      <el-form :model="editForm" ref="editFormRef" label-width="70px">
+      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="70px">
         <el-form-item label="id">
           <el-input v-model="editForm.customer_id" readonly=""></el-input>
         </el-form-item>
         <el-form-item label="客户名" prop="customer_name">
           <el-input v-model="editForm.customer_name"></el-input>
         </el-form-item>
-        <el-form-item label="电话" prop="customer_phone">
-          <el-input v-model="editForm.customer_phone"></el-input>
+        <el-form-item label="电话" prop="mobile">
+          <el-input v-model.number="editForm.customer_phone"></el-input>
         </el-form-item>
         <el-form-item label="地址" prop="customer_address">
           <el-input v-model="editForm.customer_address"></el-input>
@@ -99,6 +99,15 @@
 <script>
 export default {
   data () {
+    // 手机号码的自定义校验规则
+    var checkMobile = (rule, value, cb) => {
+      const regMobile = /^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/
+      if (regMobile.test(value)) {
+        return cb()
+      }
+      // 返回一个错误提示
+      cb(new Error('请输入合法的手机号码'))
+    }
     return {
       // 客户列表
       userList: [
@@ -133,7 +142,28 @@ export default {
       // 修改客户的对话框的显示与隐藏控制
       editDialogVisible: false,
       // 修改客户的表单数据
-      editForm: {}
+      editForm: {},
+      // 添加表单的验证规则对象
+      addFormRules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
+        ],
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { validator: checkMobile, message: '手机号码不正确，请重新输入', trigger: 'blur' }
+        ],
+        useraddress: [
+          { required: true, message: '请输入地址', trigger: 'blur' }
+        ]
+      },
+      // 修改表单的验证规则对象
+      editFormRules: {
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { validator: checkMobile, message: '手机号码不正确，请重新输入', trigger: 'blur' }
+        ]
+      }
     }
   },
   created () {
