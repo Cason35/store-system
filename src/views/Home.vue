@@ -63,18 +63,30 @@ export default {
               authName: '商品列表',
               path: 'goods',
               children: []
+            },
+            {
+              id: 104,
+              authName: '仓库列表',
+              path: 'storehouse',
+              children: []
             }
           ]
         },
         {
           id: 125,
-          authName: '用户管理',
+          authName: '客户管理',
           path: null,
           children: [
             {
               id: 105,
-              authName: '用户列表',
+              authName: '客户列表',
               path: 'users',
+              children: []
+            },
+            {
+              id: 106,
+              authName: '供应商列表',
+              path: 'supplier',
               children: []
             }
           ]

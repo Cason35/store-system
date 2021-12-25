@@ -50,13 +50,13 @@
     width="50%" @close="addDialogClosed">
       <!-- 内容主体区 -->
       <el-form :model="addForm" ref="addFormRef" label-width="70px">
-        <el-form-item label="客户名" prop="username">
+        <el-form-item label="客户名" prop="customer_name">
           <el-input v-model="addForm.customer_name"></el-input>
         </el-form-item>
-        <el-form-item label="电话" prop="mobile">
+        <el-form-item label="电话" prop="customer_phone">
           <el-input v-model="addForm.customer_phone"></el-input>
         </el-form-item>
-        <el-form-item label="地址" prop="address">
+        <el-form-item label="地址" prop="customer_address">
           <el-input v-model="addForm.customer_address"></el-input>
         </el-form-item>
       </el-form>
@@ -77,13 +77,13 @@
         <el-form-item label="id">
           <el-input v-model="editForm.customer_id" readonly=""></el-input>
         </el-form-item>
-        <el-form-item label="客户名" prop="username">
+        <el-form-item label="客户名" prop="customer_name">
           <el-input v-model="editForm.customer_name"></el-input>
         </el-form-item>
-        <el-form-item label="电话" prop="mobile">
+        <el-form-item label="电话" prop="customer_phone">
           <el-input v-model="editForm.customer_phone"></el-input>
         </el-form-item>
-        <el-form-item label="地址" prop="address">
+        <el-form-item label="地址" prop="customer_address">
           <el-input v-model="editForm.customer_address"></el-input>
         </el-form-item>
       </el-form>

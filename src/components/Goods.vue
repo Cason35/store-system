@@ -59,7 +59,7 @@
       <!-- 底部区 -->
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addUser">确 定</el-button>
+        <el-button type="primary" @click="addGoods">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -83,7 +83,7 @@
       <!-- 底部区 -->
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editUserInfo">确 定</el-button>
+        <el-button type="primary" @click="editGoodsInfo">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -151,7 +151,7 @@ export default {
       this.$refs.addFormRef.resetFields()
     },
     // 添加商品
-    async addUser () {
+    async addGoods () {
       const { data: res } = await this.$http.post('good.insert', this.addForm)
       if (res.status !== 200) return this.$message.error('添加商品失败')
       this.$message.success('添加商品成功')
@@ -163,7 +163,7 @@ export default {
     // 删除商品按钮的点击事件
     async removeGoodsById (id) {
       // 弹框询问
-      const confirmResult = this.$confirm('此操作将永久删除该商品, 是否继续?', '提示', {
+      const confirmResult = await this.$confirm('此操作将永久删除该商品, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -191,7 +191,7 @@ export default {
       this.editDialogVisible = true
     },
     // 修改商品信息并提交
-    async editUserInfo () {
+    async editGoodsInfo () {
       const { data: res } = await this.$http.post('good.update', this.editForm)
       if (res.status !== 200) {
         this.$message.error('更新商品信息失败')
