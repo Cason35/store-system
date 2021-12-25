@@ -53,10 +53,10 @@
         <el-form-item label="供应商名" prop="supplier_name">
           <el-input v-model="addForm.supplier_name"></el-input>
         </el-form-item>
-        <el-form-item label="类别" prop="supplier_phone">
+        <el-form-item label="电话" prop="supplier_phone">
           <el-input v-model="addForm.supplier_phone"></el-input>
         </el-form-item>
-        <el-form-item label="类别" prop="supplier_address">
+        <el-form-item label="地址" prop="supplier_address">
           <el-input v-model="addForm.supplier_address"></el-input>
         </el-form-item>
       </el-form>
@@ -80,10 +80,10 @@
         <el-form-item label="供应商名称" prop="supplier_name">
           <el-input v-model="editForm.supplier_name"></el-input>
         </el-form-item>
-        <el-form-item label="类别" prop="supplier_phone">
+        <el-form-item label="电话" prop="supplier_phone">
           <el-input v-model="editForm.supplier_phone"></el-input>
         </el-form-item>
-        <el-form-item label="类别" prop="supplier_address">
+        <el-form-item label="地址" prop="supplier_address">
           <el-input v-model="editForm.supplier_address"></el-input>
         </el-form-item>
       </el-form>

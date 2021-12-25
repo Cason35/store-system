@@ -18,15 +18,15 @@
 
       <!-- 仓库列表区 表格 -->
       <el-table :data="storehouseList" stripe border style="width: 100%" >
-        <el-table-column prop="good_id" label="id"></el-table-column>
-        <el-table-column prop="good_name" label="仓库名称"></el-table-column>
-        <el-table-column prop="good_type" label="类别"></el-table-column>
+        <el-table-column prop="warehouse_id" label="id"></el-table-column>
+        <el-table-column prop="warehouse_name" label="仓库名称"></el-table-column>
+        <el-table-column prop="warehouse_address" label="地址"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <!-- 修改按钮 -->
-            <el-button type="primary" icon="el-icon-edit" size="small" @click="showEditDialog(scope.row.good_id)"></el-button>
+            <el-button type="primary" icon="el-icon-edit" size="small" @click="showEditDialog(scope.row.warehouse_id)"></el-button>
             <!-- 删除按钮 -->
-            <el-button type="danger" icon="el-icon-delete" size="small" @click="removeStorehouseById(scope.row.good_id)"></el-button>
+            <el-button type="danger" icon="el-icon-delete" size="small" @click="removeStorehouseById(scope.row.warehouse_id)"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -114,8 +114,8 @@ export default {
       addDialogVisible: false,
       // 添加仓库的表单数据
       addForm: {
-        good_name: '',
-        good_type: ''
+        warehouse_name: '',
+        warehouse_address: ''
       },
       // 修改仓库的对话框的显示与隐藏控制
       editDialogVisible: false,
