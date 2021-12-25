@@ -1,6 +1,6 @@
-<!-- 商品列表组件 -->
+<!-- 客户列表组件 -->
 <template>
-  <div class="p-goods">
+  <div class="p-users">
     <!-- 卡片视图区 -->
     <el-card class="box-card">
       <el-row :gutter="20">
@@ -12,11 +12,11 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="addDialogVisible = true">添加用户</el-button>
+          <el-button type="primary" @click="addDialogVisible = true">添加客户</el-button>
         </el-col>
       </el-row>
 
-      <!-- 用户列表区 表格 -->
+      <!-- 客户列表区 表格 -->
       <el-table :data="userList" stripe border style="width: 100%" >
         <el-table-column prop="customer_id" label="id"></el-table-column>
         <el-table-column prop="customer_name" label="客户名"></el-table-column>
@@ -43,14 +43,14 @@
 
     </el-card>
 
-    <!-- 添加用户的对话框 -->
+    <!-- 添加客户的对话框 -->
     <el-dialog
     title="添加客户"
     :visible.sync="addDialogVisible"
     width="50%" @close="addDialogClosed">
       <!-- 内容主体区 -->
       <el-form :model="addForm" ref="addFormRef" label-width="70px">
-        <el-form-item label="用户名" prop="username">
+        <el-form-item label="客户名" prop="username">
           <el-input v-model="addForm.customer_name"></el-input>
         </el-form-item>
         <el-form-item label="电话" prop="mobile">
@@ -67,7 +67,7 @@
       </span>
     </el-dialog>
 
-    <!-- 修改用户的对话框 -->
+    <!-- 修改客户的对话框 -->
     <el-dialog
     title="修改客户信息"
     :visible.sync="editDialogVisible"
@@ -100,7 +100,7 @@
 export default {
   data () {
     return {
-      // 用户列表
+      // 客户列表
       userList: [
         {
           // customer_id: 1,
@@ -122,17 +122,17 @@ export default {
         page: 1,
         keyword: ''
       },
-      // 显示添加用户对话框
+      // 显示添加客户对话框
       addDialogVisible: false,
-      // 添加用户的表单数据
+      // 添加客户的表单数据
       addForm: {
         customer_name: '',
         customer_phone: '',
         customer_address: ''
       },
-      // 修改用户的对话框的显示与隐藏控制
+      // 修改客户的对话框的显示与隐藏控制
       editDialogVisible: false,
-      // 修改用户的表单数据
+      // 修改客户的表单数据
       editForm: {}
     }
   },
@@ -159,59 +159,59 @@ export default {
       this.userList = res.data.list
       this.total = res.data.total
     },
-    // 监听关闭添加用户对话框的事件
+    // 监听关闭添加客户对话框的事件
     addDialogClosed () {
       this.$refs.addFormRef.resetFields()
     },
-    // 添加用户
+    // 添加客户
     async addUser () {
       const { data: res } = await this.$http.post('customer.insert', this.addForm)
-      if (res.status !== 200) return this.$message.error('添加用户失败')
-      this.$message.success('添加用户成功')
-      // 隐藏添加用户的对话框
+      if (res.status !== 200) return this.$message.error('添加客户失败')
+      this.$message.success('添加客户成功')
+      // 隐藏添加客户的对话框
       this.addDialogVisible = false
-      // 重新获取用户列表
+      // 重新获取客户列表
       this.getUserList()
     },
-    // 删除用户按钮的点击事件
+    // 删除客户按钮的点击事件
     async removeUserById (id) {
       // 弹框询问
-      const confirmResult = await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+      const confirmResult = await this.$confirm('此操作将永久删除该客户, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).catch(err => err)
 
-      // 如果用户点击了确认 confirmResult 值为 confirm
-      // 如果用户点击了取消 confirmResult 值为 cancel
+      // 如果客户点击了确认 confirmResult 值为 confirm
+      // 如果客户点击了取消 confirmResult 值为 cancel
       if (confirmResult !== 'confirm') return this.$message.info('已取消删除')
-      const { data: res } = await this.$http.get('customer.delete', { params: id })
+      const { data: res } = await this.$http.get('customer.delete', { params: { id: id } })
       if (res.status !== 200) return this.$message.error('删除客户失败')
       this.$message.success('删除客户成功')
       this.getUserList()
     },
-    // 监听关闭修改用户对话框的事件
+    // 监听关闭修改客户对话框的事件
     editDialogClosed () {
       this.$refs.editFormRef.resetFields()
     },
-    // 展示编辑用户的对话框
+    // 展示编辑客户的对话框
     async showEditDialog (id) {
-      const { data: res } = await this.$http.get('customer.selectById', { params: id })
+      const { data: res } = await this.$http.get('customer.selectById', { params: { id: id } })
       if (res.status !== 200) {
-        return this.$message.error('查询用户信息失败！')
+        return this.$message.error('查询客户信息失败！')
       }
-      this.editForm = res.data.list
+      this.editForm = res.data
       this.editDialogVisible = true
     },
-    // 修改用户信息并提交
+    // 修改客户信息并提交
     async editUserInfo () {
       const { data: res } = await this.$http.post('customer.update', this.editForm)
       if (res.status !== 200) {
         this.$message.error('更新客户信息失败')
       }
-      // 关闭修改用户对话框
+      // 关闭修改客户对话框
       this.editDialogVisible = false
-      // 刷新用户列表
+      // 刷新客户列表
       this.getUserList()
       // 提示修改成功
       this.$message.success('更新客户信息成功')
