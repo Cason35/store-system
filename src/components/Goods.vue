@@ -48,7 +48,7 @@
     :visible.sync="addDialogVisible"
     width="50%" @close="addDialogClosed">
       <!-- 内容主体区 -->
-      <el-form :model="addForm" ref="addFormRef" label-width="70px">
+      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
         <el-form-item label="商品名" prop="good_name">
           <el-input v-model="addForm.good_name"></el-input>
         </el-form-item>
@@ -69,7 +69,7 @@
     :visible.sync="editDialogVisible"
     width="50%" @close="editDialogClosed">
       <!-- 内容主体区 -->
-      <el-form :model="editForm" ref="editFormRef" label-width="70px">
+      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="70px">
         <el-form-item label="id">
           <el-input v-model="editForm.good_id" readonly=""></el-input>
         </el-form-item>
@@ -120,7 +120,25 @@ export default {
       // 修改商品的对话框的显示与隐藏控制
       editDialogVisible: false,
       // 修改商品的表单数据
-      editForm: {}
+      editForm: {},
+      // 添加表单的验证规则对象
+      addFormRules: {
+        good_name: [
+          { required: true, message: '请输入商品名', trigger: 'blur' }
+        ],
+        good_type: [
+          { required: true, message: '请输入类别', trigger: 'blur' }
+        ]
+      },
+      // 修改表单的验证规则对象
+      editFormRules: {
+        good_name: [
+          { required: true, message: '请输入商品名', trigger: 'blur' }
+        ],
+        good_type: [
+          { required: true, message: '请输入类别', trigger: 'blur' }
+        ]
+      }
     }
   },
   created () {
@@ -151,14 +169,17 @@ export default {
       this.$refs.addFormRef.resetFields()
     },
     // 添加商品
-    async addGoods () {
-      const { data: res } = await this.$http.post('good.insert', this.addForm)
-      if (res.status !== 200) return this.$message.error('添加商品失败')
-      this.$message.success('添加商品成功')
-      // 隐藏添加商品的对话框
-      this.addDialogVisible = false
-      // 重新获取商品列表
-      this.getGoodsList()
+    addGoods () {
+      this.$refs.addFormRef.validate(async valid => {
+        if (!valid) return this.$message.error('格式错误')
+        const { data: res } = await this.$http.post('good.insert', this.addForm)
+        if (res.status !== 200) return this.$message.error('添加商品失败')
+        this.$message.success('添加商品成功')
+        // 隐藏添加商品的对话框
+        this.addDialogVisible = false
+        // 重新获取商品列表
+        this.getGoodsList()
+      })
     },
     // 删除商品按钮的点击事件
     async removeGoodsById (id) {
@@ -191,17 +212,20 @@ export default {
       this.editDialogVisible = true
     },
     // 修改商品信息并提交
-    async editGoodsInfo () {
-      const { data: res } = await this.$http.post('good.update', this.editForm)
-      if (res.status !== 200) {
-        this.$message.error('更新商品信息失败')
-      }
-      // 关闭修改商品对话框
-      this.editDialogVisible = false
-      // 刷新商品列表
-      this.getGoodsList()
-      // 提示修改成功
-      this.$message.success('更新商品信息成功')
+    editGoodsInfo () {
+      this.$refs.addFormRef.validate(async valid => {
+        if (!valid) return this.$message.error('格式错误')
+        const { data: res } = await this.$http.post('good.update', this.editForm)
+        if (res.status !== 200) {
+          this.$message.error('更新商品信息失败')
+        }
+        // 关闭修改商品对话框
+        this.editDialogVisible = false
+        // 刷新商品列表
+        this.getGoodsList()
+        // 提示修改成功
+        this.$message.success('更新商品信息成功')
+      })
     }
   }
 }

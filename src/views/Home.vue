@@ -107,7 +107,7 @@ export default {
     }
   },
   created () {
-
+    this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
     logout () {

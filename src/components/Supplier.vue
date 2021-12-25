@@ -49,8 +49,8 @@
     :visible.sync="addDialogVisible"
     width="50%" @close="addDialogClosed">
       <!-- 内容主体区 -->
-      <el-form :model="addForm" ref="addFormRef" label-width="70px">
-        <el-form-item label="供应商名" prop="supplier_name">
+      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
+        <el-form-item label="供应商" prop="supplier_name">
           <el-input v-model="addForm.supplier_name"></el-input>
         </el-form-item>
         <el-form-item label="电话" prop="supplier_phone">
@@ -73,11 +73,11 @@
     :visible.sync="editDialogVisible"
     width="50%" @close="editDialogClosed">
       <!-- 内容主体区 -->
-      <el-form :model="editForm" ref="editFormRef" label-width="70px">
+      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="70px">
         <el-form-item label="id">
           <el-input v-model="editForm.supplier_id" readonly=""></el-input>
         </el-form-item>
-        <el-form-item label="供应商名称" prop="supplier_name">
+        <el-form-item label="供应商" prop="supplier_name">
           <el-input v-model="editForm.supplier_name"></el-input>
         </el-form-item>
         <el-form-item label="电话" prop="supplier_phone">
@@ -99,6 +99,15 @@
 <script>
 export default {
   data () {
+    // 手机号码的自定义校验规则
+    var checkMobile = (rule, value, cb) => {
+      const regMobile = /^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/
+      if (regMobile.test(value)) {
+        return cb()
+      }
+      // 返回一个错误提示
+      cb(new Error('请输入合法的手机号码'))
+    }
     return {
       // 供应商列表
       suppliersList: [
@@ -128,7 +137,33 @@ export default {
       // 修改供应商的对话框的显示与隐藏控制
       editDialogVisible: false,
       // 修改供应商的表单数据
-      editForm: {}
+      editForm: {},
+      // 添加表单的验证规则对象
+      addFormRules: {
+        supplier_name: [
+          { required: true, message: '请输入供应商名称', trigger: 'blur' }
+        ],
+        supplier_phone: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { validator: checkMobile, message: '手机号码不正确，请重新输入', trigger: 'blur' }
+        ],
+        supplier_address: [
+          { required: true, message: '请输入地址', trigger: 'blur' }
+        ]
+      },
+      // 修改表单的验证规则对象
+      editFormRules: {
+        supplier_name: [
+          { required: true, message: '请输入供应商名称', trigger: 'blur' }
+        ],
+        supplier_phone: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { validator: checkMobile, message: '手机号码不正确，请重新输入', trigger: 'blur' }
+        ],
+        supplier_address: [
+          { required: true, message: '请输入地址', trigger: 'blur' }
+        ]
+      }
     }
   },
   created () {
@@ -159,14 +194,17 @@ export default {
       this.$refs.addFormRef.resetFields()
     },
     // 添加供应商
-    async addSuppliers () {
-      const { data: res } = await this.$http.post('supplier.insert', this.addForm)
-      if (res.status !== 200) return this.$message.error('添加供应商失败')
-      this.$message.success('添加供应商成功')
-      // 隐藏添加供应商的对话框
-      this.addDialogVisible = false
-      // 重新获取供应商列表
-      this.getSuppliersList()
+    addSuppliers () {
+      this.$refs.addFormRef.validate(async valid => {
+        if (!valid) return this.$message.error('格式错误')
+        const { data: res } = await this.$http.post('supplier.insert', this.addForm)
+        if (res.status !== 200) return this.$message.error('添加供应商失败')
+        this.$message.success('添加供应商成功')
+        // 隐藏添加供应商的对话框
+        this.addDialogVisible = false
+        // 重新获取供应商列表
+        this.getSuppliersList()
+      })
     },
     // 删除供应商按钮的点击事件
     async removeSuppliersById (id) {
@@ -199,17 +237,20 @@ export default {
       this.editDialogVisible = true
     },
     // 修改供应商信息并提交
-    async editSuppliersInfo () {
-      const { data: res } = await this.$http.post('supplier.update', this.editForm)
-      if (res.status !== 200) {
-        this.$message.error('更新供应商信息失败')
-      }
-      // 关闭修改供应商对话框
-      this.editDialogVisible = false
-      // 刷新供应商列表
-      this.getSuppliersList()
-      // 提示修改成功
-      this.$message.success('更新供应商信息成功')
+    editSuppliersInfo () {
+      this.$refs.editFormRef.validate(async valid => {
+        if (!valid) return this.$message.error('格式错误')
+        const { data: res } = await this.$http.post('supplier.update', this.editForm)
+        if (res.status !== 200) {
+          this.$message.error('更新供应商信息失败')
+        }
+        // 关闭修改供应商对话框
+        this.editDialogVisible = false
+        // 刷新供应商列表
+        this.getSuppliersList()
+        // 提示修改成功
+        this.$message.success('更新供应商信息成功')
+      })
     }
   }
 }

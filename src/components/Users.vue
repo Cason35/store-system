@@ -146,8 +146,7 @@ export default {
       // 添加表单的验证规则对象
       addFormRules: {
         customer_name: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
+          { required: true, message: '请输入客户名', trigger: 'blur' }
         ],
         customer_phone: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
@@ -160,8 +159,7 @@ export default {
       // 修改表单的验证规则对象
       editFormRules: {
         customer_name: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
+          { required: true, message: '请输入客户名', trigger: 'blur' }
         ],
         customer_phone: [
           { required: true, message: '请输入手机号', trigger: 'blur' },

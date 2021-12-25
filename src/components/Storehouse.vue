@@ -48,7 +48,7 @@
     :visible.sync="addDialogVisible"
     width="50%" @close="addDialogClosed">
       <!-- 内容主体区 -->
-      <el-form :model="addForm" ref="addFormRef" label-width="70px">
+      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
         <el-form-item label="仓库名" prop="warehouse_name">
           <el-input v-model="addForm.warehouse_name"></el-input>
         </el-form-item>
@@ -69,7 +69,7 @@
     :visible.sync="editDialogVisible"
     width="50%" @close="editDialogClosed">
       <!-- 内容主体区 -->
-      <el-form :model="editForm" ref="editFormRef" label-width="70px">
+      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="70px">
         <el-form-item label="id">
           <el-input v-model="editForm.warehouse_id" readonly=""></el-input>
         </el-form-item>
@@ -120,7 +120,25 @@ export default {
       // 修改仓库的对话框的显示与隐藏控制
       editDialogVisible: false,
       // 修改仓库的表单数据
-      editForm: {}
+      editForm: {},
+      // 添加表单的验证规则对象
+      addFormRules: {
+        warehouse_name: [
+          { required: true, message: '请输入仓库名称', trigger: 'blur' }
+        ],
+        warehouse_address: [
+          { required: true, message: '请输入地址', trigger: 'blur' }
+        ]
+      },
+      // 修改表单的验证规则对象
+      editFormRules: {
+        warehouse_name: [
+          { required: true, message: '请输入仓库名称', trigger: 'blur' }
+        ],
+        warehouse_address: [
+          { required: true, message: '请输入地址', trigger: 'blur' }
+        ]
+      }
     }
   },
   created () {
@@ -151,14 +169,17 @@ export default {
       this.$refs.addFormRef.resetFields()
     },
     // 添加仓库
-    async addStorehouse () {
-      const { data: res } = await this.$http.post('warehouse.insert', this.addForm)
-      if (res.status !== 200) return this.$message.error('添加仓库失败')
-      this.$message.success('添加仓库成功')
-      // 隐藏添加仓库的对话框
-      this.addDialogVisible = false
-      // 重新获取仓库列表
-      this.getStorehouseList()
+    addStorehouse () {
+      this.$refs.addFormRef.validate(async valid => {
+        if (!valid) return this.$message.error('格式错误')
+        const { data: res } = await this.$http.post('warehouse.insert', this.addForm)
+        if (res.status !== 200) return this.$message.error('添加仓库失败')
+        this.$message.success('添加仓库成功')
+        // 隐藏添加仓库的对话框
+        this.addDialogVisible = false
+        // 重新获取仓库列表
+        this.getStorehouseList()
+      })
     },
     // 删除仓库按钮的点击事件
     async removeStorehouseById (id) {
@@ -191,17 +212,20 @@ export default {
       this.editDialogVisible = true
     },
     // 修改仓库信息并提交
-    async editStorehouseInfo () {
-      const { data: res } = await this.$http.post('warehouse.update', this.editForm)
-      if (res.status !== 200) {
-        this.$message.error('更新仓库信息失败')
-      }
-      // 关闭修改仓库对话框
-      this.editDialogVisible = false
-      // 刷新仓库列表
-      this.getStorehouseList()
-      // 提示修改成功
-      this.$message.success('更新仓库信息成功')
+    editStorehouseInfo () {
+      this.$refs.editFormRef.validate(async valid => {
+        if (!valid) return this.$message.error('格式错误')
+        const { data: res } = await this.$http.post('warehouse.update', this.editForm)
+        if (res.status !== 200) {
+          this.$message.error('更新仓库信息失败')
+        }
+        // 关闭修改仓库对话框
+        this.editDialogVisible = false
+        // 刷新仓库列表
+        this.getStorehouseList()
+        // 提示修改成功
+        this.$message.success('更新仓库信息成功')
+      })
     }
   }
 }
