@@ -49,8 +49,8 @@
             <el-option
               v-for="(item, i) in addList.goods"
               :key="i"
-              label="item.good_name"
-              value="item.good_name"
+              :label="item.good_name"
+              :value="item.good_name"
             >
             </el-option>
           </el-select>
@@ -61,8 +61,8 @@
             <el-option
               v-for="(item, i) in addList.suppliers"
               :key="i"
-              label="item.supplier_name"
-              value="item.supplier_name"
+              :label="item.supplier_name"
+              :value="item.supplier_name"
             >
             </el-option>
           </el-select>
@@ -73,14 +73,14 @@
             <el-option
               v-for="(item, i) in addList.wareHouses"
               :key="i"
-              label="item.wareHouse_name"
-              value="item.wareHouse_name"
+              :label="item.wareHouse_name"
+              :value="item.wareHouse_name"
             >
             </el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="时间" required>
+        <el-form-item label="时间">
             <el-form-item prop="date">
               <el-date-picker type="date" placeholder="选择日期" v-model="addForm.date" style="width: 100%;"></el-date-picker>
             </el-form-item>
@@ -151,6 +151,9 @@ export default {
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
         warehouseName: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ],
+        date: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
         number: [
