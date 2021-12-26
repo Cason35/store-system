@@ -6,7 +6,7 @@ import Goods from '../components/Goods.vue'
 import Users from '../components/Users.vue'
 import Supplier from '../components/Supplier.vue'
 import Storehouse from '../components/Storehouse.vue'
-import Inputrecord from '../\components/Inputrecord.vue'
+import Inputrecord from '../components/Inputrecord.vue'
 
 Vue.use(VueRouter)
 

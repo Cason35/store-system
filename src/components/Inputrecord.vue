@@ -12,7 +12,7 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="addDialogVisible = true">添加入库</el-button>
+          <el-button type="primary" @click="addInputrecordList()">添加入库</el-button>
         </el-col>
       </el-row>
 
@@ -44,8 +44,8 @@
     width="50%" @close="addDialogClosed">
       <!-- 内容主体区 -->
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
-        <el-form-item label="商品名称" prop="goodName">
-          <el-select v-model="addForm.goodName" placeholder="请选择需要入库的商品">
+        <el-form-item label="商品名" prop="goodName" required>
+          <el-select v-model="addForm.goodName" placeholder="请选择需要入库的商品" style="width: 100%">
             <el-option
               v-for="(item, i) in addList.goods"
               :key="i"
@@ -56,8 +56,8 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="供应商名称" prop="supplierName">
-          <el-select v-model="addForm.supplierName" placeholder="请选择需要入库的供应商">
+        <el-form-item label="供应商" prop="supplierName" required>
+          <el-select v-model="addForm.supplierName" placeholder="请选择需要入库的供应商" style="width: 100%">
             <el-option
               v-for="(item, i) in addList.suppliers"
               :key="i"
@@ -68,26 +68,26 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="仓库名称" prop="warehouseName">
-          <el-select v-model="addForm.warehouseName" placeholder="请选择需要入库的仓库">
+        <el-form-item label="仓库" prop="warehouseName" required>
+          <el-select v-model="addForm.warehouseName" placeholder="请选择需要入库的仓库" style="width: 100%">
             <el-option
               v-for="(item, i) in addList.wareHouses"
               :key="i"
-              label="item.wareHouses"
-              value="item.wareHouses"
+              label="item.wareHouse_name"
+              value="item.wareHouse_name"
             >
             </el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="入库时间" required>
+        <el-form-item label="时间" required>
             <el-form-item prop="date">
               <el-date-picker type="date" placeholder="选择日期" v-model="addForm.date" style="width: 100%;"></el-date-picker>
             </el-form-item>
         </el-form-item>
 
-        <el-form-item label="入库数量" prop="number">
-          <el-input v-model.number="addForm.number" type="number"></el-input>
+        <el-form-item label="数量" prop="number">
+          <el-input v-model="addForm.number" type="number"></el-input>
         </el-form-item>
       </el-form>
       <!-- 底部区 -->
@@ -103,6 +103,15 @@
 <script>
 export default {
   data () {
+    // 入库数量的自定义校验规则
+    var checkNumber = (rule, value, cb) => {
+      const regNumber = /^[1-9]\d*$/
+      if (regNumber.test(value)) {
+        return cb()
+      }
+      // 返回一个错误提示
+      cb(new Error('请输入正确的数值，且数值要大于1'))
+    }
     return {
       // 入库列表
       inputrecordList: [
@@ -132,6 +141,22 @@ export default {
         warehouseName: '',
         date: '',
         number: 0
+      },
+      // 添加表单的验证规则对象
+      addFormRules: {
+        goodName: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ],
+        supplierName: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ],
+        warehouseName: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ],
+        number: [
+          { required: true, message: '不能为空', trigger: 'blur' },
+          { validator: checkNumber, message: '请输入正确的数值，且数值要大于1', trigger: 'blur' }
+        ]
       }
     }
   },
@@ -164,19 +189,23 @@ export default {
     },
     // 获取入库下拉框信息
     async addInputrecordList () {
-      const { data: res } = await this.$http.get('inputRecord.search')
+      this.addDialogVisible = true
+      const { data: res } = await this.$http.get('inputRecord.get')
       if (res.status !== 200) return this.$message.error('请求失败')
       this.addList = res.data
     },
     // 添加入库
-    async addInputrecord () {
-      const { data: res } = await this.$http.post('inputRecord.insert', this.addForm)
-      if (res.status !== 200) return this.$message.error('添加入库失败')
-      this.$message.success('添加入库成功')
-      // 隐藏添加入库的对话框
-      this.addDialogVisible = false
-      // 重新获取入库列表
-      this.getInputrecordList()
+    addInputrecord () {
+      this.$refs.addFormRef.validate(async valid => {
+        if (!valid) return this.$message.error('格式错误')
+        const { data: res } = await this.$http.post('inputRecord.insert', this.addForm)
+        if (res.status !== 200) return this.$message.error('添加入库失败')
+        this.$message.success('添加入库成功')
+        // 隐藏添加入库的对话框
+        this.addDialogVisible = false
+        // 重新获取入库列表
+        this.getInputrecordList()
+      })
     }
   }
 }
