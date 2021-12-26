@@ -54,6 +54,19 @@ export default {
       // 左侧菜单数据
       menuList: [
         {
+          id: 145,
+          authName: '库存管理',
+          path: null,
+          children: [
+            {
+              id: 100,
+              authName: '库存列表',
+              path: 'inventory',
+              children: []
+            }
+          ]
+        },
+        {
           id: 101,
           authName: '仓库管理',
           path: null,
