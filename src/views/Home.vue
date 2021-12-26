@@ -147,7 +147,7 @@ export default {
   },
   methods: {
     logout () {
-      // window.sessionStorage.clear()
+      window.sessionStorage.clear()
       this.$message('退出登录')
       this.$router.push('/login')
     },

@@ -73,7 +73,7 @@
         <el-form-item label="id">
           <el-input v-model="editForm.warehouse_id" readonly=""></el-input>
         </el-form-item>
-        <el-form-item label="仓库名称" prop="warehouse_name">
+        <el-form-item label="仓库名" prop="warehouse_name">
           <el-input v-model="editForm.warehouse_name"></el-input>
         </el-form-item>
         <el-form-item label="地址" prop="warehouse_address">

@@ -73,11 +73,19 @@
         <el-form-item label="id">
           <el-input v-model="editForm.good_id" readonly=""></el-input>
         </el-form-item>
-        <el-form-item label="商品名称" prop="good_name">
+        <el-form-item label="商品名" prop="good_name">
           <el-input v-model="editForm.good_name"></el-input>
         </el-form-item>
         <el-form-item label="类别" prop="good_type">
-          <el-input v-model="editForm.good_type"></el-input>
+          <el-select v-model="addForm.good_type" placeholder="请选择类别" style="width: 100%">
+            <el-option
+              v-for="(item, i) in typeList"
+              :key="i"
+              :label="item.typeName"
+              :value="item.typeName"
+            >
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <!-- 底部区 -->
@@ -117,6 +125,19 @@ export default {
         good_name: '',
         good_type: ''
       },
+      // 类别列表数据
+      typeList: [
+        { typeName: '食品' },
+        { typeName: '电子产品' },
+        { typeName: '饮料' },
+        { typeName: '零食' },
+        { typeName: '日用品' },
+        { typeName: '书籍' },
+        { typeName: '服饰' },
+        { typeName: '医药' },
+        { typeName: '运动' },
+        { typeName: '家具' }
+      ],
       // 修改商品的对话框的显示与隐藏控制
       editDialogVisible: false,
       // 修改商品的表单数据

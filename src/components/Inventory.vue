@@ -52,7 +52,7 @@
         <el-form-item label="仓库名" prop="warehouse_name">
           <el-input v-model="editForm.warehouse_name" readonly=""></el-input>
         </el-form-item>
-        <el-form-item label="当前库存" prop="good_number">
+        <el-form-item label="现库存" prop="good_number">
           <el-input v-model="editForm.good_number" type="number"></el-input>
         </el-form-item>
         <el-form-item label="阈值" prop="safe_number">
@@ -102,10 +102,10 @@ export default {
       editDialogVisible: false,
       // 修改库存的表单数据
       editForm: {
-        good_name: '',
-        warehouse_name: '',
-        good_number: '',
-        safe_number: ''
+        goodName: '',
+        warehouseName: '',
+        goodNumber: '',
+        safeNumber: ''
       },
       // 修改表单的验证规则对象
       editFormRules: {
@@ -153,10 +153,10 @@ export default {
       if (res.status !== 200) {
         return this.$message.error('查询库存信息失败！')
       }
-      this.editForm.good_name = res.data.good.good_name
-      this.editForm.warehouse_name = res.data.warehouse.warehouse_name
-      this.editForm.good_number = res.data.good_number
-      this.editForm.safe_number = res.data.safe_number
+      this.editForm.goodName = res.data.good.good_name
+      this.editForm.warehouseName = res.data.warehouse.warehouse_name
+      this.editForm.goodNumber = res.data.good_number
+      this.editForm.safeNumber = res.data.safe_number
       this.editDialogVisible = true
     },
     // 修改库存信息并提交
