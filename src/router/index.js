@@ -6,6 +6,7 @@ import Goods from '../components/Goods.vue'
 import Users from '../components/Users.vue'
 import Supplier from '../components/Supplier.vue'
 import Storehouse from '../components/Storehouse.vue'
+import Inputrecord from '../\components/Inputrecord.vue'
 
 Vue.use(VueRouter)
 
@@ -20,7 +21,8 @@ const routes = [
       { path: '/goods', component: Goods },
       { path: '/users', component: Users },
       { path: '/supplier', component: Supplier },
-      { path: '/storehouse', component: Storehouse }
+      { path: '/storehouse', component: Storehouse },
+      { path: '/inputrecord', component: Inputrecord }
     ]
   }
 ]

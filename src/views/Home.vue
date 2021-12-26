@@ -90,6 +90,19 @@ export default {
               children: []
             }
           ]
+        },
+        {
+          id: 103,
+          authName: '出入库管理',
+          path: null,
+          children: [
+            {
+              id: 110,
+              authName: '入库列表',
+              path: 'inputrecord',
+              children: []
+            }
+          ]
         }
       ],
       // 一级菜单的字符图标

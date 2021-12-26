@@ -213,7 +213,7 @@ export default {
     },
     // 修改商品信息并提交
     editGoodsInfo () {
-      this.$refs.addFormRef.validate(async valid => {
+      this.$refs.editFormRef.validate(async valid => {
         if (!valid) return this.$message.error('格式错误')
         const { data: res } = await this.$http.post('good.update', this.editForm)
         if (res.status !== 200) {
