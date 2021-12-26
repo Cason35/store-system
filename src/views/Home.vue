@@ -101,6 +101,12 @@ export default {
               authName: '入库列表',
               path: 'inputrecord',
               children: []
+            },
+            {
+              id: 111,
+              authName: '出库列表',
+              path: 'onputrecord',
+              children: []
             }
           ]
         }
