@@ -139,7 +139,11 @@ export default {
     }
   },
   created () {
-    this.activePath = window.sessionStorage.getItem('activePath')
+    if (window.sessionStorage.getItem('token') === 'lkasd256') {
+      this.activePath = window.sessionStorage.getItem('activePath')
+    } else {
+      this.$router.push('/login')
+    }
   },
   methods: {
     logout () {

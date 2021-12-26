@@ -23,7 +23,7 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <!-- 修改按钮 -->
-            <el-button type="primary" icon="el-icon-edit" size="small" @click="showEditDialog(scope.row.good_name, scope.row.warehouse_name)"></el-button>
+            <el-button type="primary" icon="el-icon-edit" size="small" @click="showEditDialog(scope.row.good.good_name, scope.row.warehouse.warehouse_name)"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -101,7 +101,12 @@ export default {
       // 修改库存的对话框的显示与隐藏控制
       editDialogVisible: false,
       // 修改库存的表单数据
-      editForm: {},
+      editForm: {
+        good_name: '',
+        warehouse_name: '',
+        good_number: '',
+        safe_number: ''
+      },
       // 修改表单的验证规则对象
       editFormRules: {
         good_number: [
@@ -150,8 +155,8 @@ export default {
       }
       this.editForm.good_name = res.data.good.good_name
       this.editForm.warehouse_name = res.data.warehouse.warehouse_name
-      this.editForm.good_number = res.data.good.good_number
-      this.editForm.safe_number = res.data.good.safe_number
+      this.editForm.good_number = res.data.good_number
+      this.editForm.safe_number = res.data.safe_number
       this.editDialogVisible = true
     },
     // 修改库存信息并提交
