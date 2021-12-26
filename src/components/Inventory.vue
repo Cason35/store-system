@@ -144,7 +144,7 @@ export default {
     },
     // 展示编辑库存的对话框
     async showEditDialog (gName, wName) {
-      const { data: res } = await this.$http.get('inventory.return', { params: { good_name: gName, warehouse_name: wName } })
+      const { data: res } = await this.$http.get('inventory.return', { params: { goodName: gName, warehouseName: wName } })
       if (res.status !== 200) {
         return this.$message.error('查询库存信息失败！')
       }
