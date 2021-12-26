@@ -53,10 +53,10 @@
           <el-input v-model="editForm.warehouse_name" readonly=""></el-input>
         </el-form-item>
         <el-form-item label="当前库存" prop="good_number">
-          <el-input v-model="addForm.good_number" type="number"></el-input>
+          <el-input v-model="editForm.good_number" type="number"></el-input>
         </el-form-item>
         <el-form-item label="阈值" prop="safe_number">
-          <el-input v-model="addForm.safe_number" type="number"></el-input>
+          <el-input v-model="editForm.safe_number" type="number"></el-input>
         </el-form-item>
       </el-form>
       <!-- 底部区 -->
